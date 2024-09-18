@@ -1,4 +1,4 @@
-FROM node:21-alpine3.17 as build01
+FROM node:20-alpine3.18 AS build01
 WORKDIR /app
 COPY package*.json .
 RUN npm i

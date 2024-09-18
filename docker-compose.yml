@@ -1,0 +1,10 @@
+services:
+  angulardocker:
+    image: chanvit706/angular-docker:1.0
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - "${FRONTEND_PORT:-4200}:80"

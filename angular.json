@@ -65,18 +65,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-docker:build"
+            "buildTarget": "angular-docker:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-docker:build:production"
+              "buildTarget": "angular-docker:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-docker:build"
+            "buildTarget": "angular-docker:build"
           }
         },
         "test": {

@@ -1,3 +1,5 @@
+version: "3.8" # ระบุเวอร์ชันของ Docker Compose
+
 services:
   angulardocker:
     image: chanvit706/angular-docker:1.0
@@ -8,3 +10,35 @@ services:
       NODE_ENV: production
     ports:
       - "${FRONTEND_PORT:-4200}:80"
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./sql/table.sql:/docker-entrypoint-initdb.d/1.sql
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_container
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com # อีเมลสำหรับล็อกอิน
+      PGADMIN_DEFAULT_PASSWORD: adminpassword # รหัสผ่านสำหรับล็อกอิน
+    ports:
+      - "8088:80" # พอร์ตสำหรับเข้าถึง pgAdmin
+    depends_on:
+      - postgres # ตั้งให้ pgAdmin รันหลังจาก PostgreSQL พร้อมแล้ว
+
+volumes:
+  pgdata:
